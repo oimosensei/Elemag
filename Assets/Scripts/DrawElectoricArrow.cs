@@ -22,15 +22,7 @@ public class DrawElectoricArrow : MonoBehaviour
             await UniTask.NextFrame();
             coil.deltaAllJisokuRP.Subscribe(x =>
             {
-                if (x > 0)
-                {
-                    reverse = false;
-                }
-                else
-
-                {
-                    reverse = true;
-                }
+                reverse = x < 0;
             });
         });
 
