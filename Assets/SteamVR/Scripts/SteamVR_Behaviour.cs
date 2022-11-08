@@ -6,7 +6,7 @@ using System.Text;
 using UnityEngine;
 
 #if UNITY_2017_2_OR_NEWER
-    using UnityEngine.XR;
+using UnityEngine.XR;
 #else
 using XRSettings = UnityEngine.VR.VRSettings;
 using XRDevice = UnityEngine.VR.VRDevice;
@@ -176,15 +176,15 @@ namespace Valve.VR
 #if UNITY_2017_1_OR_NEWER
         protected void OnEnable()
         {
-		    Application.onBeforeRender += OnBeforeRender;
+            Application.onBeforeRender += OnBeforeRender;
             SteamVR_Events.System(EVREventType.VREvent_Quit).Listen(OnQuit);
         }
         protected void OnDisable()
         {
-		    Application.onBeforeRender -= OnBeforeRender;
+            Application.onBeforeRender -= OnBeforeRender;
             SteamVR_Events.System(EVREventType.VREvent_Quit).Remove(OnQuit);
         }
-	    protected void OnBeforeRender()
+        protected void OnBeforeRender()
         {
             PreCull();
         }
