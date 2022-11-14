@@ -15,8 +15,11 @@ public class Rotator : MonoBehaviour
     {
     }
 
-    void fixedUpdate()
+    void FixedUpdate()
     {
-        transform.Rotate(new Vector3(15, 0, 0) * Time.deltaTime);
+        //１秒間に１５度回転させる
+        transform.Rotate(new Vector3(0, 0, 30.0f * Time.deltaTime));
+
+
     }
 }
