@@ -10,10 +10,10 @@ namespace raspberly.ovr
         [SerializeField] private float followMoveSpeed = 0.1f;
         [SerializeField] private float followRotateSpeed = 0.02f;
         [SerializeField] private float rotateSpeedThreshold = 0.9f;
-        [SerializeField] private bool isImmediateMove;
-        [SerializeField] private bool isLockX;
-        [SerializeField] private bool isLockY;
-        [SerializeField] private bool isLockZ;
+        [SerializeField] private bool isImmediateMove = false;
+        [SerializeField] private bool isLockX = false;
+        [SerializeField] private bool isLockY = false;
+        [SerializeField] private bool isLockZ = false;
         private Quaternion rot;
         private Quaternion rotDif;
 

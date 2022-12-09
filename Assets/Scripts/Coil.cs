@@ -11,11 +11,10 @@ public class Coil : MonoBehaviour
     float height = 1;
 
     float space = 0.1f;
-    // Start is called before the first frame update
 
     float pervAllJisoku = 0;
 
-    float deltaAllJisoku = 0;
+    public float deltaAllJisoku = 0;
 
     public ReadOnlyReactiveProperty<float> deltaAllJisokuRP;
 
@@ -53,9 +52,9 @@ public class Coil : MonoBehaviour
 
         deltaAllJisokuRP = this.ObserveEveryValueChanged(x => x.deltaAllJisoku).ToReadOnlyReactiveProperty();
 
-        Observable.Interval(System.TimeSpan.FromSeconds(1))
-        .Subscribe(_ => Debug.Log(deltaAllJisoku))
-        .AddTo(this);
+        /*         Observable.Interval(System.TimeSpan.FromSeconds(1))
+                .Subscribe(_ => Debug.Log(deltaAllJisoku))
+                .AddTo(this); */
     }
 
     // Update is called once per frame

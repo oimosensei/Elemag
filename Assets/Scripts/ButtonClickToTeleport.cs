@@ -10,7 +10,7 @@ public class ButtonClickToTeleport : MonoBehaviour
     Button button;
     Player player;
     [SerializeField]
-    private TeleportMarkerBase teleportMarker;
+    private TeleportMarkerBase teleportMarker = null;
 
     void Start()
     {

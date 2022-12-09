@@ -30,18 +30,27 @@ public class AvatarLaserPointer : LaserPointerRaycastReceiver
         if (raycast.gameObject)
         {
             // Ray が Hit したところまで描画してあげる
-            _laser.transform.localScale = new Vector3(LaserThickness * 4f, LaserThickness * 4f, raycast.distance);
-            _laser.transform.localPosition = new Vector3(0f, 0f, raycast.distance / 2f);
-
-            _pointer.transform.position = raycast.worldPosition;
-            _pointer.SetActive(true);
+            if (_laser != null)
+            {
+                _laser.transform.localScale = new Vector3(LaserThickness * 4f, LaserThickness * 4f, raycast.distance);
+                _laser.transform.localPosition = new Vector3(0f, 0f, raycast.distance / 2f);
+            }
+            if (_pointer != null)
+            {
+                _pointer.transform.position = raycast.worldPosition;
+                _pointer.SetActive(true);
+            }
         }
         else
         {
-            _laser.transform.localScale = new Vector3(LaserThickness, LaserThickness, 0f);
-            _laser.transform.localPosition = new Vector3(0f, 0f, 0f);
+            if (_laser != null)
+            {
+                _laser.transform.localScale = new Vector3(LaserThickness, LaserThickness, 0f);
+                _laser.transform.localPosition = new Vector3(0f, 0f, 0f);
+            }
 
-            _pointer.SetActive(false);
+            if (_pointer != null)
+                _pointer.SetActive(false);
         }
     }
 
