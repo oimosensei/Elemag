@@ -17,6 +17,7 @@ public class QuestionBase
     public string DirectiveStatement;
     private int maxTime = 10;
 
+    protected Coil _coil;
 
     protected Throwable throwableMagnet;
     //正解になるor時間制限が来るまで待機し、スコアを返す
@@ -37,8 +38,7 @@ public class QuestionBase
         var timeLeft = maxTime;
         var delayUICancellationTokenSource = new System.Threading.CancellationTokenSource();
         //ToDo本元のCancellationTokenと合体させる
-        var (index, _, __, ___, result) = await UniTask.WhenAny(
-            UniTask.Delay(maxTime * 1000).AsAsyncUnitUniTask(),
+        var result = await UniTask.WhenAny(
             UniTask.Create(async () =>
             {
                 takenTime = Time.time - startTime;
@@ -62,37 +62,39 @@ public class QuestionBase
                 {
                     //UIを消す
                     timerText.text = "";
-                    Debug.Log("finally");
-                }
-            }).AsAsyncUnitUniTask(),
-            UniTask.Create(async () =>
-            {
-                takenTime = Time.time - startTime;
-                try
-                {
-                    while (takenTime < maxTime && !delayUICancellationTokenSource.IsCancellationRequested)
-                    {
-                        takenTime = Time.time - startTime;
-                        //UIに時間を表示する
-                        ct.ThrowIfCancellationRequested();
-                        timerText.text = ((int)(maxTime - takenTime)).ToString();
-                        await UniTask.Yield();
-                    }
-                    Debug.Log("cancelled");
-                }
-                //cannel投げ直さなくていいのかな？？？
-                finally
-                {
-                    //UIを消す
-                    timerText.text = "";
-                    Debug.Log("finally");
+                    //Debug.Log("finally");
                 }
             }).AsAsyncUnitUniTask(),
             WaitCorrectAction(ct)
+        /*             UniTask.C
+        /*             UniTask.Create(async () =>
+                    {
+                        takenTime = Time.time - startTime;
+                        try
+                        {
+                            while (takenTime < maxTime && !delayUICancellationTokenSource.IsCancellationRequested)
+                            {
+                                takenTime = Time.time - startTime;
+                                //UIに時間を表示する
+                                ct.ThrowIfCancellationRequested();
+                                timerText.text = ((int)(maxTime - takenTime)).ToString();
+                                await UniTask.Yield();
+                            }
+                            //Debug.Log("cancelled");
+                        }
+                        //cannel投げ直さなくていいのかな？？？
+                        finally
+                        {
+                            //UIを消す
+                            timerText.text = "";
+                            //Debug.Log("finally");
+                        }
+                    }).AsAsyncUnitUniTask(), */
         );
         delayUICancellationTokenSource.Cancel();
         throwableMagnet.enabled = false;
-        if (timeLeft >= 0 || ((index == 2) && !result))
+        Debug.Log("result:" + result);
+        if (timeLeft < 0 || ((result.winArgumentIndex == 1) && !result.result2))
         {
             //失敗した場合
             return 0;

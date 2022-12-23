@@ -18,14 +18,14 @@ public class SteamVRInputModule : BaseInputModule
     // ReSharper disable once FieldCanBeMadeReadOnly.Local
     [SerializeField]
     private SteamVR_Action_Boolean InteractUI = SteamVR_Input.GetBooleanAction("InteractUI");
-    
+
     public SteamVR_Action_Boolean teleportAction = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("Teleport");
 
     private List<InputSource> Poses => new List<InputSource> { InputSourceLeft, InputSourceRight };
 
     protected override void Start()
     {
-        
+
         base.Start();
 
         if (InteractUI == null)
@@ -79,6 +79,7 @@ public class SteamVRInputModule : BaseInputModule
         HandlePointerExitAndEnter(source.EventData, source.EventData.pointerCurrentRaycast.gameObject);
 
         // トリガーボタンが押されていれば
+        //どっちの腕かを引数に入れてる
         if (InteractUI.GetState(source.Pose.inputSource))
         {
             // 前の値がなければ新規で押された場合なので、

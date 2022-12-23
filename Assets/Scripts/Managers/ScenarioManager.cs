@@ -36,18 +36,18 @@ public class ScenarioManager : MonoBehaviour
         await SetFollowHUDText("このゲームは、電流の流れを観察するゲームです。");
         await SetFollowHUDText("目の前の磁石を持ってみてください。");
 
-        await throwable.onPickUp.OnInvokeAsync(default);
-        await SetFollowHUDText("磁石を動かしてみてください。");
-
-        await SetFollowHUDText("磁石の動かす方向により電流の向きが変わります。");
-        await SetFollowHUDText("電流の向きを観察してください。");
-        await SetFollowHUDText("電流の向きが変わるのは、磁石の動かす方向が変わった時です。");
-        await SetFollowHUDText("より早く磁石を動かすと生まれる電流はより大きくなります。");
-        SetFollowHUDText("電流の大きさは、磁石を早く動かすほど大きくなります。\n早く動かしてみましょう。");
-        await WaitUntilCurrentFlows(10.0f);
-        await SetFollowHUDText("次に、簡単なクイズを行います。");
+        /*         await throwable.onPickUp.OnInvokeAsync(default);
+                await SetFollowHUDText("磁石を動かしてみてください。");
+                await SetFollowHUDText("磁石の動かす方向により電流の向きが変わります。");
+                await SetFollowHUDText("コイルを流れる電流の向きは右ねじの法則により決定されます");
+                await SetFollowHUDText("電流の向きを観察してください。");
+                await SetFollowHUDText("電流の向きが変わるのは、磁石の動かす方向が変わった時です。");
+                await SetFollowHUDText("より早く磁石を動かすと生まれる電流はより大きくなります。");
+                SetFollowHUDText("電流の大きさは、磁石を早く動かすほど大きくなります。\n早く動かしてみましょう。").Forget();
+                await WaitUntilCurrentFlows(10.0f);
+                await SetFollowHUDText("次に、簡単なクイズを行います。"); */
         await SetFollowHUDText("磁石を動かして指示に従い、回答を行ってください。");
-        SetFollowHUDText("");
+        SetFollowHUDText("").Forget();
         await questionManager.QuestionLoop();
     }
 

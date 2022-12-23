@@ -9,31 +9,28 @@ using DG.Tweening;
 using KanKikuchi.AudioManager;
 public class QuestionManager : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     //questionbaseのリスト
     private List<QuestionBase> questionList = new List<QuestionBase>() {
+    /*new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
+    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NUp,ActionQuestionCoilMoving.CurrentDirectonEnum.CounterClockwise) ,
+    new ActionQuestionCoilMoving(),
+     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
+    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) , */
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
     };
     private QuestionBase questionBase;
 
     [Header("UIComponents")]
 
-    [SerializeField]
-    private Image _correctEffectImage;
-    [SerializeField]
-    private Image _incorrectEffectImage;
-    [SerializeField]
-
-    private TextMeshProUGUI questionTextGUI;
-    [SerializeField]
-    ScoreManager _scoreManager;
+    [SerializeField] private Image _correctEffectImage;
+    [SerializeField] private Image _incorrectEffectImage;
+    [SerializeField] private TextMeshProUGUI _questionTextGUI;
+    [SerializeField] private ScoreBoard _scoreBoard;
+    [SerializeField] private ScoreManager _scoreManager;
     void Start()
     {
         //correctImageの不透明度を0にする
@@ -71,9 +68,16 @@ public class QuestionManager : MonoBehaviour
             //UI得点処理
             //スコアが0だったら失敗UI
             await PlayCorrectOrUncorrectAnimation(score != 0);
-            questionTextGUI.text = "";
+            _questionTextGUI.text = "";
             await UniTask.Delay(1000);
         }
+        //問題とかのUIを非表示してScoreBoardを表示する
+        _questionTextGUI.gameObject.SetActive(false);
+        _correctEffectImage.gameObject.SetActive(false);
+        _incorrectEffectImage.gameObject.SetActive(false);
+
+        _scoreBoard.AddItem(new ScoreBoardItem("Player", _scoreManager._totalScore.Value));
+        _scoreBoard.gameObject.SetActive(true);
     }
 
 
@@ -95,11 +99,11 @@ public class QuestionManager : MonoBehaviour
     {
         //UIに問題文を表示する
         int feedTime = 70;
-        questionTextGUI.text = questionString;
+        _questionTextGUI.text = questionString;
         //一文字ずつ表示する
         for (int i = 0; i < questionString.Length + 1; i++)
         {
-            questionTextGUI.maxVisibleCharacters = i;
+            _questionTextGUI.maxVisibleCharacters = i;
             await UniTask.Delay(feedTime);
         }
     }

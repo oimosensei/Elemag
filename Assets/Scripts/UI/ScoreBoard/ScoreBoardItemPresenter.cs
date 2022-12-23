@@ -16,7 +16,6 @@ public class ScoreBoardItemPresenter : MonoBehaviour
     {
         _synchronizedView = _scoreBoard.ScoreBoardItems.CreateView(i =>
         {
-            Debug.Log("CreateView");
             ScoreBoardItemView view = Instantiate(_scoreBoardItemPrefab, _content.transform).GetComponent<ScoreBoardItemView>();
             view.Initialize(i);
             return view;
@@ -25,7 +24,6 @@ public class ScoreBoardItemPresenter : MonoBehaviour
       .Where(_ => Input.GetKeyDown(KeyCode.A))
       .Subscribe(_ =>
       {
-          Debug.Log("AddItem");
           _scoreBoard.AddItem(new ScoreBoardItem("test", 100));
       });
     }

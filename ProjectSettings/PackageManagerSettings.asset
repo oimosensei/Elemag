@@ -32,6 +32,12 @@ MonoBehaviour:
     m_Scopes:
     - com.neuecc.messagepack
     m_IsDefault: 0
+  - m_Id: scoped:ExternalToolsLauncher
+    m_Name: ExternalToolsLauncher
+    m_Url: https://package.openupm.com
+    m_Scopes:
+    - online.kamishiro.externaltoolslauncher
+    m_IsDefault: 0
   m_UserSelectedRegistryName: 
   m_UserAddingNewScopedRegistry: 0
   m_RegistryInfoDraft:

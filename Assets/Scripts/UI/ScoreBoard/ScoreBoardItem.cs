@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public readonly struct ScoreBoardItem
+[System.Serializable]
+public class ScoreBoardItem
 {
-    public string PlayerName { get; }
+    [SerializeField] public string PlayerName;
 
-    public int Score { get; }
+    [SerializeField] public int Score;
 
     public ScoreBoardItem(string playerName, int score)
     {

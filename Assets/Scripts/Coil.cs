@@ -82,10 +82,10 @@ public class Coil : MonoBehaviour
         }
         return sumJisoku;
     }
-    public float getJisoku(Vector3 position)
+    private float getJisoku(Vector3 position)
     {
         var a = transform.rotation * Vector3.down;
-        float b = Vector3.Dot(MagneticPoleManager.Instance.getMagneticPower(position), a);
+        float b = Vector3.Dot(MagneticPoleManager.Instance.GetMagneticPower(position), a);
         return b;
     }
 }
