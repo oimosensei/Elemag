@@ -25,6 +25,7 @@ public class MagneticPoleManager : MonoBehaviour
     }
     [HideInInspector] public List<MagneticPole> MagneticPoles = new List<MagneticPole>();
 
+    private List<Vector3> MagneticPolesPosition = new List<Vector3>();
     public void Add(MagneticPole mp)
     {
         MagneticPoles.Add(mp);
@@ -55,10 +56,25 @@ public class MagneticPoleManager : MonoBehaviour
         Vector3 power = Vector3.zero;
         foreach (var magneticPole in MagneticPoles)
         {
-            float distance = Vector3.Distance(posision, magneticPole.transform.position);
-            power += (magneticPole.isN ? 1 : -1) * magneticPole.power / Mathf.Pow(distance, 2) * (posision - magneticPole.transform.position);
+            // float distance = Vector3.Distance(posision, magneticPole.transform.position);
+            //power += (magneticPole.isN ? 1 : -1) * magneticPole.power / Mathf.Pow(distance, 2) * (posision - magneticPole.transform.position);
+            
+            //positionCacheを用いる
+            float distance = Vector3.Distance(posision, magneticPole.positionCache);
+            power += (magneticPole.isN ? 1 : -1) * magneticPole.power / Mathf.Pow(distance, 2) * (posision - magneticPole.positionCache);
         }
         return power;
+    }
+
+    public void UpdatePolesPositions()
+    {
+        MagneticPolesPosition.Clear();
+        foreach (var magneticPole in MagneticPoles)
+        {
+            MagneticPolesPosition.Add(magneticPole.transform.position);
+            magneticPole.UpdatePositionCache();
+        }
+
     }
 
 }

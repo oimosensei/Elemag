@@ -10,6 +10,8 @@ public class MagneticPole : MonoBehaviour
     public bool isN = true;
 
     private Vector3 initialPosition;
+
+    public Vector3 positionCache;
     void Start()
     {
         MagneticPoleManager.Instance.Add(this);
@@ -25,5 +27,10 @@ public class MagneticPole : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void UpdatePositionCache()
+    {
+        positionCache = transform.position;
     }
 }
