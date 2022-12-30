@@ -61,7 +61,8 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
         });
 
     }
-    private int drawLineInterval = 3;
+    [SerializeField]
+    private int drawLineInterval = 1;
     private int drawLineCurrentFrame = 0;
     public void Update()
     {
@@ -71,6 +72,7 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
 
     private void DrawLines()
     {
+        // Debug.Log("update");
         //drawLineIntervalフレームに一回実行
         if (drawLineCurrentFrame < drawLineInterval)
         {
@@ -84,7 +86,6 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
             if (magneticForceLines.Count == 0)
                 GenerateLines();
 
-            Debug.Log("DrawLines");
 
             //N極磁力線の描画
             DrawLoop(true, barMagnetModel.NorthPoleReference.transform.position).Forget();
@@ -176,6 +177,7 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
     public async UniTask DrawLoop(bool lineIsFromNorthPole, Vector3 polePosInWorld)
     {
         // if (processing) return;
+        // if (lineIsFromNorthPole)
         // Debug.Log("DrawLoop");
         processing = true;
         Vector3 barMagnetDirection = transform.rotation.eulerAngles;
@@ -228,6 +230,7 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
         //結果を表示する
         // Debug.Log(sw.Elapsed);
         processing = false;
+        // if (lineIsFromNorthPole)
         // Debug.Log("DrawLoop end");
 
     }
@@ -310,6 +313,8 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
                 // arrow.transform.rotation = Quaternion.LookRotation(directions[index]);
                 arrow.transform.position = positions[i];
                 arrow.transform.LookAt(positions[i + 1]);
+                arrow.transform.Rotate(90, 0, 0);
+
             }
         }
         //計測を終了する
