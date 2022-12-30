@@ -46,8 +46,8 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
 
         magneticForceLines = new List<LineRenderer>();
 
-        //listStartY = new List<float> { -0.02f, -0.002f, 0, 0.002f, 0.02f };
-        listStartY = new List<float> { -0.002f, 0, 0.002f };
+        listStartY = new List<float> { -0.02f, -0.002f, 0, 0.002f, 0.02f };
+        // listStartY = new List<float> { -0.002f, 0, 0.002f };
 
         listStartZ = new List<float> { -0.002f, 0, 0.002f };
         //        listStartZ = new List<float> { 0 };
@@ -61,21 +61,36 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
         });
 
     }
-
+    private int drawLineInterval = 3;
+    private int drawLineCurrentFrame = 0;
     public void Update()
     {
-        // Debug.Log("Update");
+        DrawLines();
+    }
+
+
+    private void DrawLines()
+    {
+        //drawLineIntervalフレームに一回実行
+        if (drawLineCurrentFrame < drawLineInterval)
+        {
+            drawLineCurrentFrame++;
+            return;
+        }
+        drawLineCurrentFrame = 0;
         if (IsDrawing.Value)
         {
             //必要なら磁力線の初期化
             if (magneticForceLines.Count == 0)
                 GenerateLines();
 
+            Debug.Log("DrawLines");
+
             //N極磁力線の描画
-            DrawLoop(true, barMagnetModel.NorthPoleReference.transform.position);
+            DrawLoop(true, barMagnetModel.NorthPoleReference.transform.position).Forget();
 
             //S極磁力線の描画
-            DrawLoop(false, barMagnetModel.SouthPoleReference.transform.position);
+            DrawLoop(false, barMagnetModel.SouthPoleReference.transform.position).Forget();
 
 
         }
@@ -123,7 +138,7 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
                 {
                     var lineArrowGameObject = Instantiate(lineArrowPrefab, transform.position, Quaternion.identity);
                     // 作成したオブジェクトを子として登録
-                    lineArrowGameObject.transform.parent = transform;
+                    // lineArrowGameObject.transform.parent = transform;
                     lineArrowGameObjects.Add(lineArrowGameObject);
                 }
                 lineArrowGameObjectsList.Add(lineArrowGameObjects);
@@ -158,7 +173,7 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
         magneticForceLines.Clear();
     }
 
-    public async void DrawLoop(bool lineIsFromNorthPole, Vector3 polePosInWorld)
+    public async UniTask DrawLoop(bool lineIsFromNorthPole, Vector3 polePosInWorld)
     {
         // if (processing) return;
         // Debug.Log("DrawLoop");
@@ -284,9 +299,18 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
         }
 
         await UniTask.SwitchToMainThread();
+
         for (int i = 1; i < magnetForceLine.positionCount; i++)
         {
             magnetForceLine.SetPosition(i, positions[i]);
+            if (i % _lineArrowInterval == 0)
+            {
+                int index = i / _lineArrowInterval;
+                var arrow = lineArrowList[index];
+                // arrow.transform.rotation = Quaternion.LookRotation(directions[index]);
+                arrow.transform.position = positions[i];
+                arrow.transform.LookAt(positions[i + 1]);
+            }
         }
         //計測を終了する
         // sw.Stop();
