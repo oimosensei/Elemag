@@ -59382,9 +59382,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f93b26bcb200e45ac02039893d2210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineArrowPrefab: {fileID: 0}
+  lineArrowPrefab: {fileID: 3182952190026580341, guid: a9e614cb1ef6eb14e86d04cc4c42cb37,
+    type: 3}
   IsDrawing:
-    value: 1
+    value: 0
   baseLengthOfLine: 0.04
   numLines: 110
   widthLines: 0.005
