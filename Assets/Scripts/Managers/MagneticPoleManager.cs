@@ -56,14 +56,30 @@ public class MagneticPoleManager : MonoBehaviour
         Vector3 power = Vector3.zero;
         foreach (var magneticPole in MagneticPoles)
         {
-            // float distance = Vector3.Distance(posision, magneticPole.transform.position);
-            //power += (magneticPole.isN ? 1 : -1) * magneticPole.power / Mathf.Pow(distance, 2) * (posision - magneticPole.transform.position);
-            
-            //positionCacheを用いる
-            float distance = Vector3.Distance(posision, magneticPole.positionCache);
-            power += (magneticPole.isN ? 1 : -1) * magneticPole.power / Mathf.Pow(distance, 2) * (posision - magneticPole.positionCache);
+            // N極からの現在の頂点への変位ベクトル(ベクトルn)
+            var displacement = posision - magneticPole.positionCache;
+
+            // ベクトルnの長さの2乗（これで単位ベクトルを割る）
+            var lengthSquare =
+            displacement.sqrMagnitude;
+
+            power += (magneticPole.isN ? 1 : -1) * magneticPole.power / lengthSquare * displacement.normalized;
         }
         return power;
+    }
+
+    public float GetMinDistanceFromPoles(Vector3 posision)
+    {
+        float minDistance = float.MaxValue;
+        foreach (var magneticPole in MagneticPoles)
+        {
+            float distance = Vector3.Distance(posision, magneticPole.positionCache);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+            }
+        }
+        return minDistance;
     }
 
     public void UpdatePolesPositions()
