@@ -110,7 +110,7 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
         magnetForceLine.endWidth = _widthOfLines;
     }
 
-    private List<List<GameObject>> lineArrowGameObjectsList = new List<List<GameObject>>();
+    private List<List<GameObject>> _lineArrowGameObjectsList = new List<List<GameObject>>();
     public void GenerateLines()
     {
         processing = false;
@@ -157,8 +157,8 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
                     lineArrowGameObjectsForN.Add(lineArrowGameObjectForN);
                     lineArrowGameObjectsForS.Add(lineArrowGameObjectForS);
                 }
-                lineArrowGameObjectsList.Add(lineArrowGameObjectsForN);
-                lineArrowGameObjectsList.Add(lineArrowGameObjectsForS);
+                _lineArrowGameObjectsList.Add(lineArrowGameObjectsForN);
+                _lineArrowGameObjectsList.Add(lineArrowGameObjectsForS);
             }
         }
 
@@ -178,6 +178,14 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
             Destroy(line.gameObject);
         }
         magneticForceLines.Clear();
+        foreach (var lineArrowGameObjects in _lineArrowGameObjectsList)
+        {
+            foreach (var lineArrowGameObject in lineArrowGameObjects)
+            {
+                Destroy(lineArrowGameObject);
+            }
+        }
+        _lineArrowGameObjectsList.Clear();
     }
 
     public async UniTask DrawLoop(bool lineIsFromNorthPole, Vector3 polePosInWorld)
@@ -213,7 +221,7 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
                 tasks[count - initialCount] = DrawOneLine(
                 // DrawOneLineSync(
                 magneticForceLines[count],
-                lineArrowGameObjectsList[count],
+                _lineArrowGameObjectsList[count],
                 lineIsFromNorthPole,
                 polePosInWorld + rotation * shiftPositionFromMyPole);
 
