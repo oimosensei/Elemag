@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 [RequireComponent(typeof(CylinderBetweenTwoPoints))]
 public class LorentzForceWire : MonoBehaviour
 {
-    public float Current = 1.0f;
+    public FloatReactiveProperty CurrentReactiveProperty = new FloatReactiveProperty(1.0f);
     //磁束密度
-    public float MagneticFluxDensity = 1.0f;
+    public FloatReactiveProperty MagneticFluxDensityReactiveProperty = new FloatReactiveProperty(1.0f);
 
     private Rigidbody _rb;
 
@@ -21,12 +22,16 @@ public class LorentzForceWire : MonoBehaviour
         //磁場の向き
         Vector3 magneticFieldDirection = transform.up;
         //電流の大きさ
-        float currentMagnitude = Current;
+        float currentMagnitude = CurrentReactiveProperty.Value;
         //磁場の大きさ
-        float magneticFieldMagnitude = MagneticFluxDensity;
+        float magneticFieldMagnitude = MagneticFluxDensityReactiveProperty.Value;
         //ローレンツ力の計算
         Vector3 lorentzForce = currentMagnitude * magneticFieldMagnitude * Vector3.Cross(currentDirection, magneticFieldDirection);
         return lorentzForce;
+    }
+    public void OnButtonClickedTest()
+    {
+        Debug.Log("OnButtonClickedTest");
     }
     //係数
     public float coefficient = 1.0f;
