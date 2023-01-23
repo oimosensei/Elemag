@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Valve.VR.InteractionSystem;
+using Valve.VR;
 using TMPro;
 using DG.Tweening;
 using KanKikuchi.AudioManager;
 
 public class ScenarioManager : MonoBehaviour
 {
+    public SteamVR_Action_Boolean TextSkipAction = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("InteractUI");
     public TextMeshProUGUI FollowHUDText;
     public Throwable throwable;
 
@@ -75,8 +77,18 @@ public class ScenarioManager : MonoBehaviour
         {
             FollowHUDText.maxVisibleCharacters = i;
             await UniTask.Delay(feedTime);
+            if (Input.GetKeyDown(KeyCode.Space) || TextSkipAction.GetStateDown(SteamVR_Input_Sources.Any))
+            {
+                //文字送り中にスキップボタンが押されたら文字送りをスキップし文字全体をすぐに表示する
+                FollowHUDText.maxVisibleCharacters = text.Length;
+                break;
+            }
         }
-        await UniTask.WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        //スキップボタンが押されるまで待つ
+        await UniTask.WhenAny(
+            UniTask.WaitUntil(() => TextSkipAction.GetStateDown(SteamVR_Input_Sources.Any)),//スキップボタンが押されたら
+            UniTask.WaitUntil(() => Input.GetKeyDown(KeyCode.Space))
+        );
         //音を鳴らす
         SEManager.Instance.Play(SEPath.CLEAR);
         //テキストのアニメーションをつけて、アニメーションが終わるまで待つようにする
