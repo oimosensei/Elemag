@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using Cysharp.Threading;
+using DigitalRuby.LightningBolt;
 
 public class Coil : MonoBehaviour
 {
@@ -22,7 +23,11 @@ public class Coil : MonoBehaviour
 
     public Light light;
 
+    public List<LightningBoltScript> bolts = new List<LightningBoltScript>();
+
     public float coefficient = 0.01f;
+
+    public float boltCoefficient = 0.1f;
 
     public MeshRenderer mr;
     Material mat;
@@ -47,6 +52,10 @@ public class Coil : MonoBehaviour
 
              if (text != null)
                  text.text = pervAllJisoku.ToString();
+             foreach (var bolt in bolts)
+             {
+                 bolt.ChaosFactor = boltCoefficient * Mathf.Abs(deltaAllJisoku) + 0.02f;
+             }
          })
          .AddTo(this);
 

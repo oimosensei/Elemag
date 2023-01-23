@@ -14,7 +14,9 @@ public class LorentzForceWire : MonoBehaviour
 
     private CylinderBetweenTwoPoints _cylinderBetweenTwoPoints;
 
-    //ローレンツ力を計算する
+    private Vector3 initialPosition;
+
+    private float radius = .3f; //ローレンツ力を計算する
     public Vector3 CalculateLorentzForce()
     {
         //電流の向き
@@ -42,7 +44,7 @@ public class LorentzForceWire : MonoBehaviour
         //ToDo 方向を導線が浮く方向にする
         //ローレンツ力を加える
         _rb.AddForce(lorentzForce);
-        Vector3 beginPoint = Vector3.one;
+        Vector3 beginPoint = initialPosition - Vector3.down * radius;
         Vector3 endPoint = transform.position;
         _cylinderBetweenTwoPoints.UpdateCylinderPosition(beginPoint, endPoint);
 
@@ -51,6 +53,7 @@ public class LorentzForceWire : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        initialPosition = transform.position;
         _cylinderBetweenTwoPoints = GetComponent<CylinderBetweenTwoPoints>();
     }
 

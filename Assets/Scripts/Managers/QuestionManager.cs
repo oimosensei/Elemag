@@ -21,7 +21,8 @@ public class QuestionManager : MonoBehaviour
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) , */
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    };
+    new ActionQuestionCoilMoving()
+};
     private QuestionBase questionBase;
 
     [Header("UIComponents")]
