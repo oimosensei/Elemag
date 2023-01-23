@@ -21,8 +21,7 @@ public class QuestionManager : MonoBehaviour
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) , */
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    new ActionQuestionCoilMoving()
-};
+    new ActionQuestionCoilMoving()};
     private QuestionBase questionBase;
 
     [Header("UIComponents")]
@@ -77,7 +76,8 @@ public class QuestionManager : MonoBehaviour
         _correctEffectImage.gameObject.SetActive(false);
         _incorrectEffectImage.gameObject.SetActive(false);
 
-        _scoreBoard.AddItem(new ScoreBoardItem("Player", _scoreManager._totalScore.Value));
+        int playerNumber = PlayerNumberManager.Instance.playerNumber;
+        _scoreBoard.AddItem(new ScoreBoardItem("Player" + playerNumber.ToString(), _scoreManager._totalScore.Value));
         _scoreBoard.gameObject.SetActive(true);
     }
 
