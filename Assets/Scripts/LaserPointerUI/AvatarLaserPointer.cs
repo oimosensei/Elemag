@@ -25,6 +25,7 @@ public class AvatarLaserPointer : LaserPointerRaycastReceiver
     [SerializeField]
     private float PointerRadius = 0.05f;
 
+    private LineRenderer _lineRenderer;
     public override void OnUpdate(RaycastResult raycast)
     {
         if (raycast.gameObject)
@@ -32,8 +33,10 @@ public class AvatarLaserPointer : LaserPointerRaycastReceiver
             // Ray が Hit したところまで描画してあげる
             if (_laser != null)
             {
-                _laser.transform.localScale = new Vector3(LaserThickness * 4f, LaserThickness * 4f, raycast.distance);
-                _laser.transform.localPosition = new Vector3(0f, 0f, raycast.distance / 2f);
+                // _laser.transform.localScale = new Vector3(LaserThickness * 4f, LaserThickness * 4f, raycast.distance);
+                // _laser.transform.localPosition = new Vector3(0f, 0f, raycast.distance / 2f);
+                _lineRenderer.SetPosition(0, transform.position);
+                _lineRenderer.SetPosition(1, raycast.worldPosition);
             }
             if (_pointer != null)
             {
@@ -47,6 +50,8 @@ public class AvatarLaserPointer : LaserPointerRaycastReceiver
             {
                 _laser.transform.localScale = new Vector3(LaserThickness, LaserThickness, 0f);
                 _laser.transform.localPosition = new Vector3(0f, 0f, 0f);
+                _lineRenderer.SetPosition(0, transform.position);
+                _lineRenderer.SetPosition(1, transform.position);
             }
 
             if (_pointer != null)
@@ -67,6 +72,14 @@ public class AvatarLaserPointer : LaserPointerRaycastReceiver
         _laser.transform.localPosition = new Vector3(0f, 0f, 50f);
         _laser.transform.localRotation = Quaternion.identity;
         _laser.GetComponent<MeshRenderer>().material = LaserMaterial;
+
+        _lineRenderer = gameObject.AddComponent<LineRenderer>();
+        _lineRenderer.material = LaserMaterial;
+        _lineRenderer.startWidth = LaserThickness;
+        _lineRenderer.endWidth = LaserThickness;
+        _lineRenderer.positionCount = 2;
+        _lineRenderer.SetPosition(0, transform.position);
+        _lineRenderer.SetPosition(1, transform.position);
 
         _pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         _pointer.transform.parent = transform;

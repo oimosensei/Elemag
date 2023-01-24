@@ -70,6 +70,11 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
         DrawLines();
     }
 
+    void OnDisable()
+    {
+        DeleteLines();
+    }
+
 
     private void DrawLines()
     {
@@ -201,7 +206,7 @@ public class BarMagnetMagneticForceLinesDrawer : MonoBehaviour
         int count = initialCount;
 
         var rotation = gameObject.transform.rotation;
-        MagneticPoleManager.Instance.UpdatePolesPositions();
+        // MagneticPoleManager.Instance.UpdatePolesPositions();
         UniTask[] tasks = new UniTask[listStartY.Count * listStartZ.Count];
         foreach (float startY in listStartY)
         {

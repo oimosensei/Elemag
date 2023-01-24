@@ -31,7 +31,6 @@ public class ButtonClickToTeleport : MonoBehaviour
 
             teleportMarker.TeleportPlayer(teleportMarker.transform.position);
             Teleport.Player.Send(teleportMarker);
-            Debug.Log("Teleport");
         });
     }
 

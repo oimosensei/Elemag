@@ -9,16 +9,14 @@ public class MagneticPole : MonoBehaviour
 
     public bool isN = true;
 
-    private Vector3 initialPosition;
 
     public Vector3 positionCache;
-    void Start()
+
+    private void OnEnable()
     {
         MagneticPoleManager.Instance.Add(this);
-        initialPosition = transform.position;
     }
-
-    private void OnDestroy()
+    private void OnDisable()
     {
         MagneticPoleManager.Instance.Remove(this);
     }

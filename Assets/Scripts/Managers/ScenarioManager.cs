@@ -77,7 +77,7 @@ public class ScenarioManager : MonoBehaviour
         {
             FollowHUDText.maxVisibleCharacters = i;
             await UniTask.Delay(feedTime);
-            if (Input.GetKeyDown(KeyCode.Space) || TextSkipAction.GetStateDown(SteamVR_Input_Sources.Any))
+            if (Input.GetKeyDown(KeyCode.Space) || GetTextSkipButtonDown())
             {
                 //文字送り中にスキップボタンが押されたら文字送りをスキップし文字全体をすぐに表示する
                 FollowHUDText.maxVisibleCharacters = text.Length;
@@ -86,12 +86,19 @@ public class ScenarioManager : MonoBehaviour
         }
         //スキップボタンが押されるまで待つ
         await UniTask.WhenAny(
-            UniTask.WaitUntil(() => TextSkipAction.GetStateDown(SteamVR_Input_Sources.Any)),//スキップボタンが押されたら
+            UniTask.WaitUntil(() => GetTextSkipButtonDown()),//スキップボタンが押されたら
             UniTask.WaitUntil(() => Input.GetKeyDown(KeyCode.Space))
         );
         //音を鳴らす
         SEManager.Instance.Play(SEPath.CLEAR);
         //テキストのアニメーションをつけて、アニメーションが終わるまで待つようにする
+    }
+
+    private bool GetTextSkipButtonDown()
+    {
+        Player player = Player.instance;
+        bool isFallback = player.rightHand == null;
+        return (!isFallback && TextSkipAction.GetStateDown(SteamVR_Input_Sources.Any)) || Input.GetKeyDown(KeyCode.Space);
     }
 
     public async UniTask WaitUntilCurrentFlows(float current)

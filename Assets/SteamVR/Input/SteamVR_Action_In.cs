@@ -262,7 +262,7 @@ namespace Valve.VR
         public abstract bool lastChanged { get; protected set; }
 
         /// <summary>The input source that triggered the action to be updated</summary>
-        public SteamVR_Input_Sources activeDevice { get { UpdateOriginTrackedDeviceInfo();  return SteamVR_Input_Source.GetSource(inputOriginInfo.devicePath); } }
+        public SteamVR_Input_Sources activeDevice { get { UpdateOriginTrackedDeviceInfo(); return SteamVR_Input_Source.GetSource(inputOriginInfo.devicePath); } }
 
         /// <summary>The device index (used by Render Models) used by the device that triggered the action to be updated</summary>
         public uint trackedDeviceIndex { get { UpdateOriginTrackedDeviceInfo(); return inputOriginInfo.trackedDeviceIndex; } }

@@ -34,4 +34,9 @@ public class PlayerNumberManager : MonoBehaviour
     {
 
     }
+
+    public void ResetPlayerNumber()
+    {
+        PlayerPrefs.SetInt("PlayerNumber", 0);
+    }
 }

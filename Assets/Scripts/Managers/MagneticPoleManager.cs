@@ -25,7 +25,7 @@ public class MagneticPoleManager : MonoBehaviour
     }
     [HideInInspector] public List<MagneticPole> MagneticPoles = new List<MagneticPole>();
 
-    private List<Vector3> MagneticPolesPosition = new List<Vector3>();
+    // private List<Vector3> MagneticPolesPosition = new List<Vector3>();
     public void Add(MagneticPole mp)
     {
         MagneticPoles.Add(mp);
@@ -44,7 +44,7 @@ public class MagneticPoleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        UpdatePolesPositions();
     }
     /// <summary>
     /// ある位置でのクーロン力を計算する     
@@ -84,10 +84,10 @@ public class MagneticPoleManager : MonoBehaviour
 
     public void UpdatePolesPositions()
     {
-        MagneticPolesPosition.Clear();
+        // MagneticPolesPosition.Clear();
         foreach (var magneticPole in MagneticPoles)
         {
-            MagneticPolesPosition.Add(magneticPole.transform.position);
+            // MagneticPolesPosition.Add(magneticPole.transform.position);
             magneticPole.UpdatePositionCache();
         }
 
