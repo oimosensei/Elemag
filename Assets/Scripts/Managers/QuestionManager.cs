@@ -12,14 +12,14 @@ public class QuestionManager : MonoBehaviour
 
     //questionbaseのリスト
     private List<QuestionBase> questionList = new List<QuestionBase>() {
-    /*new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
+    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NUp,ActionQuestionCoilMoving.CurrentDirectonEnum.CounterClockwise) ,
     new ActionQuestionCoilMoving(),
      new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) , */
+    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
     new ActionQuestionCoilMoving()};
     private QuestionBase questionBase;
