@@ -7,22 +7,11 @@ using Valve.VR.InteractionSystem;
 using TMPro;
 using DG.Tweening;
 using KanKikuchi.AudioManager;
+using UniRx;
 public class QuestionManager : MonoBehaviour
 {
 
     //questionbaseのリスト
-    private List<QuestionBase> questionList = new List<QuestionBase>() {
-    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NUp,ActionQuestionCoilMoving.CurrentDirectonEnum.CounterClockwise) ,
-    new ActionQuestionCoilMoving(),
-     new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
-    new ActionQuestionCoilMoving()};
-    private QuestionBase questionBase;
 
     [Header("UIComponents")]
 
@@ -31,12 +20,14 @@ public class QuestionManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _questionTextGUI;
     [SerializeField] private ScoreBoard _scoreBoard;
     [SerializeField] private ScoreManager _scoreManager;
+    [SerializeField] private Button _BackToTitleButton;
     void Start()
     {
         //correctImageの不透明度を0にする
         _correctEffectImage.DOFade(0, 0);
         //incorrectImageの不透明度を0にする
         _incorrectEffectImage.DOFade(0, 0);
+        _scoreBoard.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -48,11 +39,19 @@ public class QuestionManager : MonoBehaviour
 
     public async UniTask QuestionLoop()
     {
+
+        List<QuestionBase> questionList = new List<QuestionBase>() {
+            new ActionQuestionCoilMoving(),
+            new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
+            new ActionQuestionCoilMoving(),
+            new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NDown,ActionQuestionCoilMoving.CurrentDirectonEnum.Clockwise) ,
+            new ActionQuestionCoilMoving(ActionQuestionCoilMoving.MagnetDirectionEnum.NUp,ActionQuestionCoilMoving.CurrentDirectonEnum.CounterClockwise) ,
+        };
         while (questionList.Count != 0)
         {
             //ランダムに問題を選びリストから削除する
             var index = Random.Range(0, questionList.Count);
-            questionBase = questionList[index];
+            QuestionBase questionBase = questionList[index];
             questionList.RemoveAt(index);
             var throwableMagnet = GameObject.Find("BarMagnetAA").GetComponent<Throwable>();
             throwableMagnet.GetComponent<Interactable>().enabled = false;
@@ -79,6 +78,9 @@ public class QuestionManager : MonoBehaviour
         int playerNumber = PlayerNumberManager.Instance.playerNumber;
         _scoreBoard.AddItem(new ScoreBoardItem("Player" + playerNumber.ToString(), _scoreManager._totalScore.Value));
         _scoreBoard.gameObject.SetActive(true);
+        _BackToTitleButton.gameObject.SetActive(true);
+        //磁石をつかめるように
+        GameObject.Find("BarMagnetAA").GetComponent<Throwable>().enabled = true;
     }
 
 

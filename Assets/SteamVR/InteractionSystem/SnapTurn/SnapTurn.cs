@@ -36,6 +36,7 @@ namespace Valve.VR.InteractionSystem
 
         public float canTurnEverySeconds = 0.4f;
 
+        public bool IsTurning = false;
 
         private void Start()
         {
@@ -109,7 +110,7 @@ namespace Valve.VR.InteractionSystem
         private IEnumerator DoRotatePlayer(float angle)
         {
             Player player = Player.instance;
-
+            IsTurning = true;
             canRotate = false;
 
             snapTurnSource.panStereo = angle / 90;
@@ -153,6 +154,7 @@ namespace Valve.VR.InteractionSystem
 
             fx.SetActive(false);
             canRotate = true;
+            IsTurning = false;
         }
 
         void ShowRotateFX(GameObject fx)

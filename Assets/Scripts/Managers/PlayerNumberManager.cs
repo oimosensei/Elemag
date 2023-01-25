@@ -22,11 +22,19 @@ public class PlayerNumberManager : MonoBehaviour
             return instance;
         }
     }
-    public int playerNumber;
-    void Start()
+    public int playerNumber = 0;
+    void Awake()
     {
+        int a = PlayerNumberManager.Instance.playerNumber;
+        if (instance && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         playerNumber = PlayerPrefs.GetInt("PlayerNumber") + 1;
         PlayerPrefs.SetInt("PlayerNumber", playerNumber);
+        DontDestroyOnLoad(gameObject);
+        Debug.Log("PlayerNumber: " + playerNumber);
     }
 
     // Update is called once per frame
@@ -38,5 +46,6 @@ public class PlayerNumberManager : MonoBehaviour
     public void ResetPlayerNumber()
     {
         PlayerPrefs.SetInt("PlayerNumber", 0);
+        playerNumber = 0;
     }
 }

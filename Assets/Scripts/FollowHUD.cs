@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR;
+using Valve.VR.InteractionSystem;
 
 namespace raspberly.ovr
 {
@@ -20,6 +22,7 @@ namespace raspberly.ovr
         private void Start()
         {
             if (!target) target = Camera.main.transform;
+            target = Player.instance.hmdTransform;
         }
 
         private void LateUpdate()

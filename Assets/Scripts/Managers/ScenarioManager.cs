@@ -15,15 +15,21 @@ public class ScenarioManager : MonoBehaviour
     public TextMeshProUGUI FollowHUDText;
     public Throwable throwable;
 
+    public Teleport teleport;
+
+    public SnapTurn snapTurn;
+
     public Coil coil;
 
     public Image circleGuage;
+    public raspberly.ovr.FollowHUD followHUD;
 
     public QuestionManager questionManager;
     // Start is called before the first frame update
     void Start()
     {
-        FirstTutorial();
+        //FirstTutorial();
+        followHUD = FindObjectOfType<raspberly.ovr.FollowHUD>();
     }
 
     // Update is called once per frame
@@ -35,19 +41,25 @@ public class ScenarioManager : MonoBehaviour
 
     public async void FirstTutorial()
     {
-        await SetFollowHUDText("このテキストはコントローラーのAボタンを押すことで次に進むことができます。");
+        followHUD.gameObject.SetActive(true);
+        await SetFollowHUDText("このテキストはコントローラーのトリガーボタンを押すことで次に進むことができます。");
         await SetFollowHUDText("まず、このゲームでの操作方法を説明します。");
-        await SetFollowHUDText("右スティックを倒すことで左、右に45度回転することができます。");
-        await SetFollowHUDText("一度右にスティックを倒してみてください。");
+        await SetFollowHUDText("タッチパッドの左側、右側を押すことで左、右に45度回転することができます。");
+        SetFollowHUDText("一度タッチパッドの右側を押してみてください。");
+        await UniTask.WaitUntil(() => snapTurn.IsTurning);
         await SetFollowHUDText("OKです。");
-        await SetFollowHUDText("次に、左にスティックを倒してみてください。");
+        SetFollowHUDText("一度タッチパッドの右側を押してみてください。");
+        await UniTask.WaitUntil(() => snapTurn.IsTurning);
         await SetFollowHUDText("OKです。");
         await SetFollowHUDText("次に、このゲームでの移動方法を説明します。");
         await SetFollowHUDText("このゲームでの移動はテレポート方式を採用しています。");
-        await SetFollowHUDText("コントローラーの左スティックを倒すことでテレポートモードに移行し、\nテレポート地点で離すとテレポートします。");
-        await SetFollowHUDText("左前方のテレポート地点へテレポートしてみてください。");
+        await SetFollowHUDText("タッチパッドの上側を長押しすることでテレポートモードに移行し、\nテレポート地点で離すとテレポートします。");
+        await SetFollowHUDText("テレポート先は、コントローラの先を向けることで決めることができます。");
+        SetFollowHUDText("左前方のテレポート地点へテレポートしてみてください。").Forget();
+        await UniTask.WaitUntil(() => teleport.Teleporting);
         await SetFollowHUDText("OKです。");
-        await SetFollowHUDText("次は、元いた場所に戻ってみてください。");
+        SetFollowHUDText("次は、元いた場所に戻ってみてください。").Forget();
+        await UniTask.WaitUntil(() => teleport.Teleporting);
         await SetFollowHUDText("OKです。");
         await SetFollowHUDText("このゲームは、電流の流れを観察するゲームです。");
         await SetFollowHUDText("コントローラーのトリガーを引いて、目の前の磁石を持ってみてください。");
@@ -65,6 +77,7 @@ public class ScenarioManager : MonoBehaviour
         await SetFollowHUDText("次に、簡単なクイズを行います。");
         await SetFollowHUDText("磁石を動かして指示に従い、回答を行ってください。");
         SetFollowHUDText("").Forget();
+        followHUD.gameObject.SetActive(false);
         await questionManager.QuestionLoop();
     }
 

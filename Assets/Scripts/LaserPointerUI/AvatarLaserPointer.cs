@@ -35,8 +35,8 @@ public class AvatarLaserPointer : LaserPointerRaycastReceiver
             {
                 _laser.transform.localScale = new Vector3(LaserThickness * 4f, LaserThickness * 4f, raycast.distance);
                 _laser.transform.localPosition = new Vector3(0f, 0f, raycast.distance / 2f);
-                _lineRenderer.SetPosition(0, transform.position);
-                _lineRenderer.SetPosition(1, raycast.worldPosition);
+                // _lineRenderer.SetPosition(0, transform.position);
+                // _lineRenderer.SetPosition(1, raycast.worldPosition);
             }
             if (_pointer != null)
             {

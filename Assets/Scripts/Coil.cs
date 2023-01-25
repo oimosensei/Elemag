@@ -51,7 +51,7 @@ public class Coil : MonoBehaviour
              mat.SetColor("_EmissionColor", new Color(0.97254906f * factor, 0.3803922f * factor, 0.05098039f * factor));
 
              if (text != null)
-                 text.text = pervAllJisoku.ToString();
+                 text.text = "現在の電流\n" + string.Format("{0,5}", deltaAllJisoku * 10000);
              foreach (var bolt in bolts)
              {
                  bolt.ChaosFactor = boltCoefficient * Mathf.Abs(deltaAllJisoku) + 0.02f;
